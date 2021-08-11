@@ -1,0 +1,13 @@
+.container{
+  display: flex;
+  background-color: chocolate;
+  flex-direction: column;
+  label {
+    margin-bottom: 0.5rem;
+
+  }
+
+  span{
+    background-color: withe;
+  }
+}

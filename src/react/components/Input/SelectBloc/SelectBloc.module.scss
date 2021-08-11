@@ -1,0 +1,39 @@
+.input_select{
+  display : flex;
+  flex-direction: column;
+  label{
+    margin-bottom: 0.5rem;
+  }
+
+  .fake_select_container{
+    display : flex;
+  flex-direction: column;
+  position : relative;
+  }
+
+  .fake_select{
+    padding: 0.5rem;
+    background-color: #ededed;
+    border : 1px solid rgb(143, 143, 143);
+    cursor : pointer;
+  }
+
+  .fake_select_list{
+    background-color: burlywood;
+    z-index : 100;
+    position : absolute;
+    top: 34px;
+    left : 0 ;
+    right : 0;
+    li{
+      text-transform: uppercase;
+      padding: 0.25rem;
+      cursor : pointer;
+
+      &:hover{
+        background-color:cornflowerblue;
+        color : white;
+      }
+    }
+  }
+}

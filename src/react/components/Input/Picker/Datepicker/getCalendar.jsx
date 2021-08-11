@@ -93,6 +93,17 @@ export class GetCalendar {
     }
   }
 
+  getFullDateFormated(day, month, year) {
+    switch (this.format) {
+      case "en":
+        return `${month}/${day}/${year}`;
+      case "fr":
+        return `${day}/${month}/${year}`;
+      default:
+        return;
+    }
+  }
+
   isleapYear(year) {
     return year % 4 ? false : true;
   }
@@ -441,6 +452,11 @@ export class GetCalendar {
             abbr: this.getDayNameByKey(newKey).abbr,
             date: inc + 1,
             style: "current",
+            fullDate: this.getFullDateFormated(
+              inc + 1, // day
+              currentMonth.monthKey + 1, //monthKey
+              currentMonth.year //year of this month
+            ),
           };
 
           //calculate fistDay of this month
@@ -457,7 +473,7 @@ export class GetCalendar {
               key: this.getNextDayKey(newKey),
               name: this.getDayNameByKey(this.getNextDayKey(newKey)).name,
               abbr: this.getDayNameByKey(this.getNextDayKey(newKey)).abbr,
-              date: monthKey + 1,
+              date: 1,
             };
           }
         }
@@ -565,6 +581,11 @@ export class GetCalendar {
           abbr: this.getDayNameByKey(newRefFirstDay).abbr,
           date: lengthOfPrevMonth - i,
           style: "notCurrent",
+          fullDate: this.getFullDateFormated(
+            lengthOfPrevMonth - i, // day
+            currentMonth.monthKey, //monthKey
+            currentMonth.year //year of this month
+          ),
         };
 
         currentMonth.weeks[0].splice(0, 0, newDay);
@@ -598,6 +619,11 @@ export class GetCalendar {
           abbr: this.getDayNameByKey(newRefLastDay).abbr,
           date: i + 1,
           style: "notCurrent",
+          fullDate: this.getFullDateFormated(
+            i + 1, // day
+            currentMonth.monthKey + 2, //monthKey
+            currentMonth.year //year of this month
+          ),
         };
 
         if (currentMonth.weeks[lastWeekIndex].length <= 6) {

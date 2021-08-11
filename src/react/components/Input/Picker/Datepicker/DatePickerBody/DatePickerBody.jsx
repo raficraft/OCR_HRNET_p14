@@ -49,7 +49,11 @@ export const DatePickerBody = () => {
     const newMonthKey = currentDate.month - 1 < 0 ? 11 : currentDate.month - 1;
     const selectMonth = datePicker.getMonthName(newMonthKey);
     const newYear =
-      currentDate.month - 1 < 0 ? currentDate.year - 1 : currentDate.year;
+      currentDate.month - 1 < 0
+        ? currentDate.year - 1 < startCalendar
+          ? endCalendar
+          : currentDate.year - 1
+        : currentDate.year;
 
     setCurrentDate({
       ...currentDate,
@@ -64,7 +68,11 @@ export const DatePickerBody = () => {
     const newMonthKey = currentDate.month + 1 > 11 ? 0 : currentDate.month + 1;
     const selectMonth = datePicker.getMonthName(newMonthKey);
     const newYear =
-      currentDate.month + 1 > 11 ? currentDate.year + 1 : currentDate.year;
+      currentDate.month + 1 > 11
+        ? currentDate.year + 1 > endCalendar
+          ? startCalendar
+          : currentDate.year + 1
+        : currentDate.year;
 
     setCurrentDate({
       ...currentDate,
@@ -86,6 +94,10 @@ export const DatePickerBody = () => {
       month: month,
       year: currentYear,
     });
+  };
+
+  const setInput = (fullDate) => {
+    console.log(fullDate);
   };
 
   //INTERNAL COMPONENT
@@ -132,11 +144,25 @@ export const DatePickerBody = () => {
       <tr key={key}>
         {week.map((day, index) =>
           day.date === currentDate.date ? (
-            <td className={Style.currentDay} key={index}>
+            <td
+              className={Style.currentDay}
+              key={index}
+              data-fulldate={day.fullDate}
+              onClick={() => {
+                setInput(day.fullDate);
+              }}
+            >
               {day.date}
             </td>
           ) : (
-            <td className={Style[day.style]} key={index}>
+            <td
+              className={Style[day.style]}
+              key={index}
+              data-fulldate={day.fullDate}
+              onClick={() => {
+                setInput(day.fullDate);
+              }}
+            >
               {day.date}
             </td>
           )

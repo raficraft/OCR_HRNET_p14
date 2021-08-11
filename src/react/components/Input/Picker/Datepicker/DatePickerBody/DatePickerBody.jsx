@@ -7,8 +7,8 @@ import { dayArrayTable } from "../../../../../../js/data/calendarArray";
 
 export const DatePickerBody = () => {
   const language = "fr";
-  const startCalendar = 2020;
-  const endCalendar = 2022;
+  const startCalendar = 1950;
+  const endCalendar = 2050;
 
   const datePicker = new GetCalendar(startCalendar, endCalendar, language);
   const calendar = datePicker.calendarArray;

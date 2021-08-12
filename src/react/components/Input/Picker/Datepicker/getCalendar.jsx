@@ -52,7 +52,6 @@ export class GetCalendar {
 
     this.calendarArray["day"] = this.dayArray[this.format];
     this.calendarArray["month"] = this.monthArray[this.format];
-    console.log("fin du calcul", this.calendarArray);
   }
 
   getMonthName(month) {

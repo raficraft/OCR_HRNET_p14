@@ -1,12 +1,11 @@
 import { GetCalendar } from "../getCalendar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RiArrowRightSFill, RiArrowLeftSFill } from "react-icons/ri";
 import { VscHome } from "react-icons/vsc";
 import Style from "./DatePickerBody.module.scss";
 import { dayArrayTable } from "../../../../../../js/data/calendarArray";
 
-export const DatePickerBody = () => {
-  const language = "fr";
+export const DatePickerBody = ({ setInput, inputVal, language }) => {
   const startCalendar = 1950;
   const endCalendar = 2050;
 
@@ -28,6 +27,39 @@ export const DatePickerBody = () => {
   //Redifined the monthArray to get the exactly number of day in february
   datePicker.redifineMonthArray(currentDate.year);
   currentDate.monthLengthArray = [...datePicker.monthLengthArray];
+
+  useEffect(() => {
+    if (inputVal) {
+      console.log("default value", inputVal);
+
+      const inputValArray = inputVal.split("/");
+      let selectMonth = "";
+      let monthKey = "";
+      let year = "";
+      let date = "";
+
+      switch (language) {
+        case "fr":
+          date = inputValArray[0];
+          monthKey = inputValArray[1] - 1;
+          selectMonth = datePicker.getMonthName(monthKey);
+          year = inputValArray[2];
+          break;
+        default:
+          //langauge en
+
+          break;
+      }
+
+      setCurrentDate({
+        ...currentDate,
+        monthName: selectMonth,
+        month: monthKey,
+        year: year,
+        date: date,
+      });
+    }
+  }, []);
 
   const handleChangeMonth = (e) => {
     const selectMonth = e.target.value;
@@ -96,10 +128,6 @@ export const DatePickerBody = () => {
     });
   };
 
-  const setInput = (fullDate) => {
-    console.log(fullDate);
-  };
-
   //INTERNAL COMPONENT
 
   const createSelectMonth = (months) => {
@@ -143,7 +171,7 @@ export const DatePickerBody = () => {
     return allWeeks.map((week, key) => (
       <tr key={key}>
         {week.map((day, index) =>
-          day.date === currentDate.date ? (
+          day.date === parseInt(currentDate.date) && day.style === "current" ? (
             <td
               className={Style.currentDay}
               key={index}

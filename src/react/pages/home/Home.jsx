@@ -65,7 +65,6 @@ export const Home = () => {
       console.log("on stock en BDD");
       localStorage.setItem("employees", JSON.stringify(employees));
       //view Success Modal
-
       setModal(!modal);
     }
   };
@@ -109,8 +108,22 @@ export const Home = () => {
             ref={inputForm.lastName}
           />
 
-          <DatePicker />
-          <DatePicker />
+          <DatePicker
+            ref={inputForm.birthDate}
+            data={{
+              forHtml: "dateOfBirth",
+              label: "Date of birth",
+              format: "date",
+            }}
+          />
+          <DatePicker
+            ref={inputForm.startDate}
+            data={{
+              forHtml: "startDate",
+              label: "Start date",
+              format: "date",
+            }}
+          />
 
           <fieldset>
             <legend>Adress</legend>

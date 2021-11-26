@@ -1,6 +1,7 @@
 import React, { useImperativeHandle, useRef, forwardRef } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { validInput } from "./../InputBloc/validInput";
+import { RiArrowDownSFill } from "react-icons/ri";
 import Style from "./SelectBloc.module.scss";
 
 export const SelectBloc = forwardRef((props, ref) => {
@@ -44,22 +45,25 @@ export const SelectBloc = forwardRef((props, ref) => {
   console.log("state of Hooks visible in component : ", visible);
   return (
     <div className={Style.input_select}>
-      <label forhtml={forHtml}>{label}</label>
-      <div className={Style.fake_select_container} ref={refOutsideClick}>
-        <span
-          className={Style.fake_select}
-          onClick={handleClick}
-          key={label}
-          ref={fakeSelectSpan}
-          name={forHtml}
-          data-format={format}
-        >
-          Select a {label}
-        </span>
+      <div>
+        <label forhtml={forHtml}>{label}</label>
+        <div className={Style.fake_select_container} ref={refOutsideClick}>
+          <span
+            className={Style.fake_select}
+            onClick={handleClick}
+            key={label}
+            ref={fakeSelectSpan}
+            name={forHtml}
+            data-format={format}
+          >
+            Select a {label}
+          </span>
+          <RiArrowDownSFill className={Style.fake_select_arrow} />
+          {visible && <ul className={Style.fake_select_list}>{itemsLi}</ul>}
+        </div>
         <span className="error_message_container">
           <p className="error_message" ref={errorMessage}></p>
         </span>
-        {visible && <ul className={Style.fake_select_list}>{itemsLi}</ul>}
       </div>
     </div>
   );

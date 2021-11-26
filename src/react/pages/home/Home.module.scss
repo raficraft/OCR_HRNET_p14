@@ -1,36 +1,76 @@
-.home{
-  background-color: rgb(211, 211, 211);
+body {
+  padding: 2rem;
+  background-color: grey;
+}
+
+.home {
+  background-color: rgb(173, 186, 232);
   width: 70%;
   display: flex;
   flex-direction: column;
-  padding : 2rem;
-  h1{
+  padding: 2rem;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h1 {
+      color: brown;
+    }
+  }
+
+  h1 {
     font-weight: bold;
     margin-bottom: 1.5rem;
     text-align: center;
   }
-  h2{
+  h2 {
     font-weight: bold;
     margin-bottom: 1rem;
     text-align: center;
   }
 
-  a{
+  a {
     text-align: center;
     margin-bottom: 1rem;
   }
- 
 
-  form{
-    padding : 2rem;
-    border : 1px solid 
+  form {
+    padding: 2rem;
+    border: 1px solid;
   }
 
-  .btn{
-    padding : 1rem 2rem;
-    margin : 1rem 0;
-    cursor : pointer;
+  legend {
+    padding: 1rem;
   }
- 
 
+  .btn {
+    padding: 0.5rem 2rem;
+    margin: 1rem 0;
+    cursor: pointer;
+    border-radius: 3px;
+    border: none;
+    box-shadow: 2px 2px 8px 1px black;
+  }
+}
+
+input{
+  box-shadow: 2px 2px 8px 1px black;
+  border: none;
+}
+
+.employee {
+  display: flex;
+  margin: 0 0 2rem;
+
+  fieldset {
+    flex: 1;
+    margin: 0 1rem 0 1rem;
+    padding: 0 1rem 1rem 1rem;
+  }
+}
+
+.select_departement {
+  padding: 0 1rem;
 }

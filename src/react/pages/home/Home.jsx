@@ -3,14 +3,16 @@ import { Link } from "react-router-dom";
 import { departement, states } from "../../../js/data/states";
 import { SelectBloc } from "../../components/Input/SelectBloc/SelectBloc";
 import { InputBloc } from "./../../components/Input/InputBloc/InputBloc";
-
-import Style from "./Home.module.scss";
 import { validForm } from "./validForm";
 import { validInput } from "./../../components/Input/InputBloc/validInput";
 import { ModalBox } from "../../components/modal/modal";
 import { DatePicker } from "./../../components/Input/Picker/DatePickers";
 
-export const Home = () => {
+import Style from "./Home.module.scss";
+
+export const Home = (props) => {
+  console.log("yolo", props);
+
   const [modal, setModal] = useState(false);
 
   const inputForm = {
@@ -81,102 +83,117 @@ export const Home = () => {
 
   return (
     <section className={Style.home}>
-      <h1>HRnet</h1>
-      <Link to="/employee">View Current Employees</Link>
-
-      <div className="form_employee" id="form_employee">
+      <header>
+        <h1>HRnet</h1>
         <h2>Create Employee</h2>
+        <Link to="/employee">View Current Employees</Link>
+      </header>
+
+      <div id="form_employee">
         <form onSubmit={handleSubmit} ref={formEmployee}>
-          <InputBloc
-            data={{
-              forHtml: "firstName",
-              label: "First Name",
-              type: "text",
-              placeholder: "First Name",
-              format: "alphabetical",
-            }}
-            ref={inputForm.firstName}
-          />
-          <InputBloc
-            data={{
-              forHtml: "lastName",
-              label: "Last Name",
-              type: "text",
-              placeholder: "Last Name",
-              format: "alphabetical",
-            }}
-            ref={inputForm.lastName}
-          />
+          {/* EMPLOYEE IDENTITIES*/}
+          <div className={Style.employee}>
+            <fieldset>
+              <legend>Identites</legend>
+              <InputBloc
+                data={{
+                  forHtml: "firstName",
+                  label: "First Name",
+                  type: "text",
+                  placeholder: "First Name",
+                  format: "alphabetical",
+                }}
+                ref={inputForm.firstName}
+              />
+              <InputBloc
+                data={{
+                  forHtml: "lastName",
+                  label: "Last Name",
+                  type: "text",
+                  placeholder: "Last Name",
+                  format: "alphabetical",
+                }}
+                ref={inputForm.lastName}
+              />
 
-          <DatePicker
-            ref={inputForm.birthDate}
-            data={{
-              forHtml: "dateOfBirth",
-              label: "Date of birth",
-              format: "date",
-            }}
-          />
-          <DatePicker
-            ref={inputForm.startDate}
-            data={{
-              forHtml: "startDate",
-              label: "Start date",
-              format: "date",
-            }}
-          />
+              <DatePicker
+                ref={inputForm.birthDate}
+                data={{
+                  forHtml: "dateOfBirth",
+                  label: "Date of birth",
+                  format: "date",
+                }}
+              />
+              <DatePicker
+                ref={inputForm.startDate}
+                data={{
+                  forHtml: "startDate",
+                  label: "Start date",
+                  format: "date",
+                  language: "fr",
+                }}
+              />
+            </fieldset>
 
-          <fieldset>
-            <legend>Adress</legend>
-            <InputBloc
-              data={{
-                forHtml: "street",
-                label: "Street",
-                type: "text",
-                format: "alphanumeric",
-              }}
-              ref={inputForm.street}
-            />
-            <InputBloc
-              data={{
-                forHtml: "city",
-                label: "City",
-                type: "text",
-                format: "alphanumeric",
-              }}
-              ref={inputForm.city}
-            />
+            {/* EMPLOYEE ADRESS*/}
+            <fieldset>
+              <legend>Adress</legend>
+              <InputBloc
+                data={{
+                  forHtml: "street",
+                  label: "Street",
+                  type: "text",
+                  format: "alphanumeric",
+                  placeholder: "Your adress",
+                }}
+                ref={inputForm.street}
+              />
+              <InputBloc
+                data={{
+                  forHtml: "city",
+                  label: "City",
+                  type: "text",
+                  format: "alphanumeric",
+                  placeholder: "Your city",
+                }}
+                ref={inputForm.city}
+              />
 
+              <SelectBloc
+                data={{
+                  forHtml: "state",
+                  label: "State",
+                  role: "options",
+                  options: states,
+                  format: "select",
+                }}
+                ref={inputForm.state}
+              />
+              <InputBloc
+                data={{
+                  forHtml: "zipCode",
+                  label: "Zip Code",
+                  type: "number",
+                  format: "numeric",
+                  placeholder: "Your Zip code",
+                }}
+                ref={inputForm.zip}
+              />
+            </fieldset>
+          </div>
+
+          <div className={Style.select_departement}>
             <SelectBloc
               data={{
-                forHtml: "state",
-                label: "State",
+                forHtml: "department",
+                label: "Department",
                 role: "options",
-                options: states,
+                options: departement,
                 format: "select",
               }}
-              ref={inputForm.state}
+              ref={inputForm.departement}
             />
-            <InputBloc
-              data={{
-                forHtml: "zipCode",
-                label: "Zip Code",
-                type: "number",
-                format: "numeric",
-              }}
-              ref={inputForm.zip}
-            />
-          </fieldset>
-
-          <SelectBloc
-            data={{
-              forHtml: "department",
-              label: "Department",
-              role: "options",
-              options: departement,
-              format: "select",
-            }}
-            ref={inputForm.departement}
-          />
+          </div>
 
           <button type="submit" className={Style.btn} name="submitButton">
             Save

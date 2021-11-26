@@ -1,11 +1,17 @@
 .container{
   display: flex;
   flex-direction: column;
+  padding : 0.125rem 0;
 
   label {
     margin-bottom: 0.5rem;
   }
-  
+
+  input{
+    height : 34px;
+    padding : 8px;
+  }
+
   span{
     background-color: withe;
   }

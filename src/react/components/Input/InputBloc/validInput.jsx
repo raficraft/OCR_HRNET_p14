@@ -70,16 +70,15 @@ export const validInput = (input) => {
 
     case "select":
       if (thisInput.name === "state") {
-        thisInput.error = !states.filter(
-          (state) => state.name === thisInput.value
-        )
-          ? "l'état choisies n'est pas valide"
-          : thisInput.error;
+        thisInput.error =
+          thisInput.value === "Select a State"
+            ? "Champs obligatoire"
+            : thisInput.error;
       }
 
       if (thisInput.name === "department") {
         thisInput.error = !departement.includes(thisInput.value)
-          ? "le departement choisies n'est pas valide"
+          ? "Le departement choisies n'est pas valide"
           : thisInput.error;
       }
 

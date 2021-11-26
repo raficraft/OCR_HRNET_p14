@@ -2,8 +2,6 @@ import { dayArray, monthArray } from "../../../../../js/data/calendarArray";
 
 export class GetCalendar {
   constructor(startCalendar, endCalendar, format) {
-    // console.log("constructor du datePicker");
-
     this.monthArray = monthArray;
     this.dayArray = dayArray;
 
@@ -14,7 +12,7 @@ export class GetCalendar {
     this.format = format;
     this.date = new Date();
     this.currentDate = {
-      day: this.date.getDay(), // 6éme jour de la semaine [0] === dimanche
+      day: this.date.getDay(), // 6éme jour de la semaine [6] === samedi !! [0] === dimanche
       date: this.date.getDate(), // jour du mois 10
       month: this.date.getMonth(), // 6éme mois de l'année juillet [0] === janvier
       year: this.date.getFullYear(), //2021
@@ -26,11 +24,7 @@ export class GetCalendar {
         this.isleapYear(this.date.getFullYear())
       ),
     };
-    /*
-    console.log(this.date.getMonth());
-    console.log(typeof this.date.getMonth());
-    console.log(this.getMonthName(11));
-*/
+
     this.numberOfDays = 7;
     this.numberOfWeeks = 5;
     this.monthLengthArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -54,13 +48,13 @@ export class GetCalendar {
     this.calendarArray["month"] = this.monthArray[this.format];
   }
 
+  //Method of calculating calendar items
+
   getMonthName(month) {
     return this.monthArray[this.format][month];
   }
 
   getMonthKeyByName(val) {
-    console.log("test", val, this.format);
-
     let searchKey = 0;
     for (const [key, value] of Object.entries(this.monthArray[this.format])) {
       if (value.name === val) {
@@ -72,6 +66,18 @@ export class GetCalendar {
 
   getDayName(day) {
     return this.dayArray[this.format][day];
+  }
+
+  getDayNameByKey(key) {
+    return this.dayArray[this.format][key];
+  }
+
+  getPrevDayKey(key) {
+    return key - 1 < 0 ? 6 : key - 1;
+  }
+
+  getNextDayKey(key) {
+    return key + 1 > 6 ? 0 : key + 1;
   }
 
   getFullDateWithName() {
@@ -103,6 +109,8 @@ export class GetCalendar {
     }
   }
 
+  //Utility for manage february case
+
   isleapYear(year) {
     return year % 4 ? false : true;
   }
@@ -110,6 +118,7 @@ export class GetCalendar {
   getNumberDayOfYear(leapYear) {
     return leapYear ? 366 : 365;
   }
+
   getFebruaryLength(leapYear) {
     return leapYear ? 29 : 28;
   }
@@ -118,21 +127,12 @@ export class GetCalendar {
     this.monthLengthArray[1] = this.getFebruaryLength(this.isleapYear(year));
   }
 
-  calculateAnnuelTerminal() {}
+  /* Calculate all first and last day of year */
 
-  calculateThisMonth(month, date, year) {
-    let thismonthArray = 0;
-    console.log(`month : ${month} , date : ${date} , year ${year}`);
-    if (month === 1) {
-      console.log("on gère le mois de février");
-    }
-
-    thismonthArray = this.monthArray[month];
-    console.log("durée du mois en cours", thismonthArray);
-    const restOfDay = date % 7;
-    console.log(restOfDay);
-  }
-
+  /* Calculate the first and the last day of current Year 
+  as well the last day of prev year and the first day of next year 
+  in the current year Array
+  */
   getTerminalDayByReferenceDate(month, date, year, day) {
     this.redifineMonthArray(year);
 
@@ -147,7 +147,6 @@ export class GetCalendar {
     const isleapYear = this.isleapYear(year);
 
     //Calculate First Day of the current Year
-
     const firstDayOffset = day - ((totalDay % 7) - 1);
     let keyToFirstDayOfThisYear =
       firstDayOffset < 0 ? 6 + firstDayOffset + 1 : firstDayOffset;
@@ -202,49 +201,9 @@ export class GetCalendar {
     };
   }
 
-  getDayNameByKey(key) {
-    return this.dayArray[this.format][key];
-  }
-
-  getPrevDayKey(key) {
-    return key - 1 < 0 ? 6 : key - 1;
-  }
-  getNextDayKey(key) {
-    return key + 1 > 6 ? 0 : key + 1;
-  }
-
-  createCalendarArray() {
-    //On fabrique tous les tableau d'années correspondante au borne passé en
-    //paramètres de la Class
-    /* console.log(
-      `startYear : ${this.startCalendar} , endYear : ${this.endCalendar}`
-    );*/
-
-    let calendarArray = [];
-    for (let start = this.startCalendar; start <= this.endCalendar; start++) {
-      calendarArray[start] = { yearInfo: {} };
-    }
-    return calendarArray;
-  }
-
-  createCalendarTerminal(calendarArray) {
-    /* console.log(calendarArray);
-    console.log(this.currentDate.year);*/
-    const currentYear = this.currentDate.year;
-    this.getCalendarTerminalPrev(currentYear, calendarArray[currentYear]);
-    this.getCalendarTerminalNext(currentYear, calendarArray[currentYear]);
-
-    // console.log(this.calendarArray);
-  }
-
+  /* Calculate the first and last day of prev year by contribution to the current year */
   getCalendarTerminalPrev(currentYear, currentTerminal) {
-    //  console.error(`start : ${currentYear}`);
     const newYear = currentYear - 1;
-    /*   console.log(
-      `on calcule les bornes des annnées précédents ${currentYear}, avec les data suivantes : `,
-      currentTerminal
-    );
-    console.log("current year data :", currentTerminal[0]);*/
 
     if (newYear >= this.startCalendar) {
       const isleapYear = this.isleapYear(newYear);
@@ -252,8 +211,6 @@ export class GetCalendar {
 
       const lastDayByRef =
         this.calendarArray[currentYear].yearInfo.lastDayPrevYear.key;
-
-      //  console.log("byRef", this.getDayNameByKey(lastDayByRef), currentYear);
 
       const newFirstDay = lastDayByRef - offset < 0 ? 6 : lastDayByRef - offset;
 
@@ -282,38 +239,15 @@ export class GetCalendar {
         //by calc
       };
 
-      /*   console.log(
-        `Resultat : 
-        ${this.calendarArray[newYear][0].lastDayPrevYear.name} 31 décembre ${
-          newYear - 1
-        } => calculate
-        ${
-          this.calendarArray[newYear][0].firstDay.name
-        } 1 janvier ${newYear} => calculate
-        ${
-          this.calendarArray[newYear][0].lastDay.name
-        } 31 décembre ${newYear} => byRef       
-        ${this.calendarArray[newYear][0].firstDayNextYear.name} 1 janvier ${
-          newYear + 1
-        } => byRef
-        `
-      );*/
-
       return this.getCalendarTerminalPrev(newYear, this.calendarArray[newYear]);
     }
 
     return false;
   }
 
+  /* Calculate the first and last day of next year by contribution to the current year */
   getCalendarTerminalNext(currentYear, currentTerminal) {
-    //  console.error(`start : ${currentYear}`);
     const newYear = currentYear + 1;
-    /*   console.log(
-      `on calcule les bornes des annnées suivantes ${currentYear}, avec les data suivantes : `,
-      currentTerminal
-    );*/
-    /*  console.log("current year data :", currentTerminal[0]);
-    console.log(newYear, this.currentDate.year);*/
 
     if (newYear <= this.endCalendar) {
       const isleapYear = this.isleapYear(newYear);
@@ -322,14 +256,10 @@ export class GetCalendar {
       const firstDayByRef =
         this.calendarArray[currentYear].yearInfo.firstDayNextYear.key;
 
-      //   console.log("byRef", this.getDayNameByKey(firstDayByRef).name, newYear);
-
       const newLastDay =
         firstDayByRef + offset > 6 ? 0 : firstDayByRef + offset;
 
       const lastDayOfPrevYear = this.getNextDayKey(newLastDay);
-
-      //   console.log("?????", this.calendarArray[currentYear][0].lastDayPrevYear);
 
       this.calendarArray[newYear].yearInfo = {
         lastDayPrevYear: this.calendarArray[currentYear].yearInfo.lastDay, //by ref
@@ -352,26 +282,7 @@ export class GetCalendar {
           month: this.getMonthName(0),
         },
         isleapYear,
-        //by calc
       };
-
-      //  console.log(this.calendarArray[newYear]);
-      /*    console.log(
-        `Resultat : 
-        ${this.calendarArray[newYear][0].lastDayPrevYear.name} 31 décembre ${
-          newYear - 1
-        } => byRef
-        ${
-          this.calendarArray[newYear][0].firstDay.name
-        } 1 janvier ${newYear} => byRef
-        ${
-          this.calendarArray[newYear][0].lastDay.name
-        } 31 décembre ${newYear} => calculate      
-        ${this.calendarArray[newYear][0].firstDayNextYear.name} 1 janvier ${
-          newYear + 1
-        } => calculate
-        `
-      );*/
 
       return this.getCalendarTerminalNext(newYear, this.calendarArray[newYear]);
     }
@@ -379,15 +290,34 @@ export class GetCalendar {
     return false;
   }
 
+  /* Create all the empty arrays for the years passed in parameter */
+  createCalendarArray() {
+    let calendarArray = [];
+    for (let start = this.startCalendar; start <= this.endCalendar; start++) {
+      calendarArray[start] = { yearInfo: {} };
+    }
+    return calendarArray;
+  }
+
+  createCalendarTerminal(calendarArray) {
+    const currentYear = this.currentDate.year;
+    this.getCalendarTerminalPrev(currentYear, calendarArray[currentYear]);
+    this.getCalendarTerminalNext(currentYear, calendarArray[currentYear]);
+  }
+
+  // Create Month Calendar
+
   createMonthCalendar(calendarArray) {
     for (const key in calendarArray) {
       if (Object.hasOwnProperty.call(calendarArray, key)) {
         const yearArray = calendarArray[key];
         const year = parseFloat(key);
         const firstDayKey = yearArray.yearInfo.firstDay;
+
         this.redifineMonthArray(year);
-        //   console.log(this.monthLengthArray);
+
         yearArray.month = [];
+
         for (const key in this.monthArray[this.format]) {
           if (Object.hasOwnProperty.call(this.monthArray[this.format], key)) {
             const month = this.monthArray[this.format][key];
@@ -404,13 +334,9 @@ export class GetCalendar {
             this.createDayOfMonth(yearArray.month[monthKey].calendar, monthKey);
           }
         }
-
-        // console.log(this.calendarArray);
         this.createMonth(yearArray.month);
       }
     }
-
-    //read year array
   }
 
   createDayOfMonth(calendar, monthKey) {
@@ -421,26 +347,15 @@ export class GetCalendar {
   }
 
   createMonth(monthArray) {
-    /*   console.log("on fabrique les mois en conséquence de cette année");
-    console.error(monthArray);*/
-
     for (const key in monthArray) {
       if (Object.hasOwnProperty.call(monthArray, key)) {
-        // console.log("mois courant", key);
         const currentMonth = monthArray[key];
-        // console.log(currentMonth);
         const monthKey = currentMonth.monthKey;
         const monthLength = this.monthLengthArray[monthKey];
-        // console.log(`il y a ${monthLength} jour dans ce mois.`);
         //L'on crée les datas de chaque pour le mois en cours + le jour suivant
         let firstDayKey = currentMonth.firstDay.key;
-        /*  console.log(
-          `le premier jour du mois ${currentMonth.name} est un ${
-            this.getDayNameByKey(firstDayKey).name
-          }`
-        );*/
-
         let newKey = firstDayKey;
+
         for (let inc = 0; inc < monthLength; inc++) {
           if (inc > 0) {
             newKey = newKey + 1 > 6 ? 0 : newKey + 1;
@@ -460,14 +375,6 @@ export class GetCalendar {
 
           //calculate fistDay of this month
           if (currentMonth.monthKey < 11) {
-            /*  console.log(
-              `on redéfinie à la racine du mois le jour suivant ${this.getNextDayKey(
-                newKey
-              )}`
-            );*/
-
-            //  console.log(monthArray[monthKey]);
-
             monthArray[monthKey + 1].firstDay = {
               key: this.getNextDayKey(newKey),
               name: this.getDayNameByKey(this.getNextDayKey(newKey)).name,
@@ -483,11 +390,8 @@ export class GetCalendar {
   }
 
   createWeek(currentMonth) {
-    // console.log(currentMonth);
     const firstDay = currentMonth.firstDay;
     const lastDay = currentMonth.lastDay;
-
-    // console.log({ firstDay: firstDay, lastDay: lastDay });
 
     currentMonth.offset = {
       start:
@@ -500,10 +404,8 @@ export class GetCalendar {
     };
 
     //CalculateWeek
-
     currentMonth.weeks = [];
 
-    // console.log("!!!! ------------------->", currentMonth.offset);
     for (let i = 0; i < 6; i++) {
       if (7 * i + currentMonth.offset.start - 6 < currentMonth.monthLength) {
         let weekOffset = {
@@ -513,15 +415,12 @@ export class GetCalendar {
               ? currentMonth.monthLength
               : 7 * i + currentMonth.offset.start + 1,
         };
-        //   console.log(weekOffset);
         currentMonth.weeks[i] = currentMonth.calendar.slice(
           weekOffset.start,
           weekOffset.end
         );
       }
-      //  console.log(currentMonth.weeks[i], i);
     }
-    /* console.log(currentMonth.offset);*/
 
     this.completeWeeks(currentMonth);
   }
@@ -532,10 +431,6 @@ export class GetCalendar {
       currentMonth.monthKey - 1 < 0 ? 11 : currentMonth.monthKey - 1;
 
     const lengthOfPrevMonth = this.monthLengthArray[prevMonthKeyIndex];
-
-    // console.log("indexOfprevMonth", prevMonthKeyIndex);
-    // console.log("lol", lengthOfPrevMonth);
-
     const completeWeekOffset = {
       firstWeek: 7 - currentMonth.offset.start - 1,
       lastWeek: currentMonth.offset.end,
@@ -552,23 +447,8 @@ export class GetCalendar {
       last: currentMonth.weeks[lastWeekIndex][lastDayIndex],
     };
 
-    //  console.log(referenceDay);
-    //  console.log(completeWeekOffset);
-
-    //complete First Week
-    //  console.log("semaine a altérer", currentMonth.weeks);
-    //if there is at least one day added
     if (completeWeekOffset.firstWeek > 0) {
       for (let i = 0; i < completeWeekOffset.firstWeek; i++) {
-        // console.log(`DEBUT DU MOIS : il manque ${i + 1} jour`);
-
-        /*   console.log(
-          "WHHHHHHHHHHHHHHHHHHHHHHHAAAAAAAATTTTTTT",
-          referenceDay.first.key - i
-        );*/
-
-        //If calc result equal to - 1 add 7 day to get saturday (dayIndex = 6)
-
         let newRefFirstDay =
           referenceDay.first.key - i - 1 < 0
             ? referenceDay.first.key - i - 1 + 7
@@ -588,26 +468,13 @@ export class GetCalendar {
         };
 
         currentMonth.weeks[0].splice(0, 0, newDay);
-
-        //console.log(newDay);
       }
-
-      //  console.log(currentMonth.weeks);
     }
 
     //complete last week
     if (completeWeekOffset.lastWeek > 0) {
       for (let i = 0; i < completeWeekOffset.lastWeek; i++) {
-        // console.log(`FIN DU MOIS : il manque ${i + 1} jour`);
-        // console.log(this.getNextDayKey(referenceDay.last.key + i));
-
-        // console.log("???", referenceDay.last.key + i);
-
         let lenghtOfLastWeek = currentMonth.weeks[lastWeekIndex].length;
-
-        // console.log("!!!!", lenghtOfLastWeek);
-
-        //console.log("avant Modif : ", currentMonth.weeks);
 
         let newRefLastDay =
           referenceDay.last.key + i + 1 > 6 ? 0 : referenceDay.last.key + i + 1;
@@ -628,10 +495,7 @@ export class GetCalendar {
         if (currentMonth.weeks[lastWeekIndex].length <= 6) {
           currentMonth.weeks[lastWeekIndex].splice(lenghtOfLastWeek, 0, newDay);
         }
-
-        // console.log(newDay);
       }
     }
-    //console.log(currentMonth.weeks);
   }
 }

@@ -33,8 +33,13 @@ export const DataTable = ({ dataEmployees }) => {
 
   const handleSelectChange = (e) => {
     dataRow = dataEmployees;
-    setnumberOfLinePerPage(e.target.value);
-    setDataRow(dataRow.slice(0, parseInt(e.target.value)));
+    if (e.target.value === "all") {
+      setnumberOfLinePerPage(dataRow.length);
+      setDataRow(dataRow);
+    } else {
+      setnumberOfLinePerPage(e.target.value);
+      setDataRow(dataRow.slice(0, parseInt(e.target.value)));
+    }
   };
 
   /**
@@ -120,6 +125,9 @@ export const DataTable = ({ dataEmployees }) => {
             value={numberOfLinePerPage}
             onChange={handleSelectChange}
           >
+            <option value="all" selected>
+              All
+            </option>
             <option value="1">1</option>
             <option value="5">5</option>
             <option value="10">10</option>

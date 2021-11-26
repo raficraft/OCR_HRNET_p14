@@ -4,14 +4,12 @@ import { DatePickerBody } from "./Datepicker/DatePickerBody/DatePickerBody";
 import Style from "./DatePicker.module.scss";
 
 export const DatePicker = forwardRef((props, ref) => {
-  const { label, forHtml, format } = props.data;
+  const { label, forHtml, format, language = "en" } = props.data;
   const { visible, setVisible, refOutsideClick } = useClickOutside(false);
 
   const inputDate = useRef(false);
   const errorMessage = useRef(null);
-  const language = "fr";
-
-  const placeholder = languager === "fr" ? "jj/ mm/ aaaa" : "mm/ jj/ aaaa";
+  const placeholder = language === "fr" ? "jj/ mm/ aaaa" : "mm/ jj/ aaaa";
 
   const handleClick = (e) => {
     e.preventDefault();

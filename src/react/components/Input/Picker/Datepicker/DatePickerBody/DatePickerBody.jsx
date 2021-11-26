@@ -1,21 +1,20 @@
 import { GetCalendar } from "../getCalendar";
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { RiArrowRightSFill, RiArrowLeftSFill } from "react-icons/ri";
 import { VscHome } from "react-icons/vsc";
-import Style from "./DatePickerBody.module.scss";
 import { dayArrayTable } from "../../../../../../js/data/calendarArray";
 
+import Style from "./DatePickerBody.module.scss";
+
 export const DatePickerBody = ({ setInput, inputVal, language }) => {
-  const startCalendar = 1950;
+  const startCalendar = 1900;
   const endCalendar = 2050;
 
   const datePicker = new GetCalendar(startCalendar, endCalendar, language);
   const calendar = datePicker.calendarArray;
 
   const currentMonth = datePicker.currentDate.monthName;
-  const currentYear = datePicker.currentDate.year;
-
-  console.log(calendar);
+  const currentYear = datePicker.currentDate;
 
   const calendarYear = Object.keys(calendar);
   const monthArray = datePicker.monthArray[language];
@@ -28,10 +27,8 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
   datePicker.redifineMonthArray(currentDate.year);
   currentDate.monthLengthArray = [...datePicker.monthLengthArray];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (inputVal) {
-      console.log("default value", inputVal);
-
       const inputValArray = inputVal.split("/");
       let selectMonth = "";
       let monthKey = "";
@@ -61,6 +58,8 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
     }
   }, []);
 
+  //DATEPICKER ENGINE
+
   const handleChangeMonth = (e) => {
     const selectMonth = e.target.value;
     const monthKey = datePicker.getMonthKeyByName(e.target.value);
@@ -72,11 +71,7 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
     setCurrentDate({ ...currentDate, year: parseInt(selectYear) });
   };
 
-  //DATEPICKER ENGINE
-
   const prevMonth = () => {
-    console.log("click prev");
-
     /* const selectMonth = e.target.value;*/
     const newMonthKey = currentDate.month - 1 < 0 ? 11 : currentDate.month - 1;
     const selectMonth = datePicker.getMonthName(newMonthKey);
@@ -95,8 +90,6 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
     });
   };
   const nextMonth = () => {
-    console.log("click next");
-    /* const selectMonth = e.target.value;*/
     const newMonthKey = currentDate.month + 1 > 11 ? 0 : currentDate.month + 1;
     const selectMonth = datePicker.getMonthName(newMonthKey);
     const newYear =
@@ -115,23 +108,19 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
   };
 
   const homeCalendar = () => {
-    console.log(currentMonth);
-
     const month = datePicker.currentDate.month;
-    datePicker.getMonthName(month);
 
     setCurrentDate({
       ...currentDate,
       monthName: datePicker.getMonthName(month),
-      month: month,
-      year: currentYear,
+      month: datePicker.currentDate.month,
+      year: datePicker.currentDate.year,
     });
   };
 
   //INTERNAL COMPONENT
 
   const createSelectMonth = (months) => {
-    console.log(currentDate.monthName);
     return (
       <select value={currentDate.monthName.name} onChange={handleChangeMonth}>
         {months.map((month, index) => {

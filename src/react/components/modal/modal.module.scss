@@ -1,18 +1,39 @@
-.modal_container{
-  background: rgba(255, 255, 255, 0.9);
+.modal_container {
+  background: rgba(255, 255, 255, 0.6);
   position: fixed;
-  top : 0;
-  left : 0;
-  right : 0;
+  top: 0;
+  left: 0;
+  right: 0;
   bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  .modal_content{
-    padding : 2rem;
+  .modal_content {
+    padding: 2rem;
     background-color: white;
-    border : 5px solid;
-    border-radius :5px;
+    border: 2px solid;
+    border-radius: 5px;
+    position: relative;
+    text-align: center;
+
+    button {
+      $size: 32px;
+      position: absolute;
+      border-radius: 50%;
+      border: none;
+      border: 2px solid black;
+      padding: 0;
+      height: $size;
+      width: $size;
+      top: -$size / 2;
+      right: -$size / 2;
+      text-align: center;
+    }
+
+    p {
+      margin: 1rem 0 0;
+      color: rgb(143, 142, 142);
+    }
   }
 }

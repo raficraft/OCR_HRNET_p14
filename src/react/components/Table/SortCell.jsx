@@ -1,6 +1,8 @@
 import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
 import React, { useRef, useImperativeHandle, forwardRef } from "react";
 
+import Style from "./Table.module.scss";
+
 export const SortCell = forwardRef(({ name, sortData, sortCellData }, ref) => {
   const thRef = useRef();
 
@@ -11,11 +13,14 @@ export const SortCell = forwardRef(({ name, sortData, sortCellData }, ref) => {
   }));
 
   return (
-    <th onClick={(e) => sortData(e, name)} ref={thRef} data-name={name}>
+    <th
+      className={Style.sortArrow}
+      onClick={(e) => sortData(e, name)}
+      ref={thRef}
+      data-name={name}
+    >
       {name}
-      <span className="sortArrow">
-        {sortCellData ? <RiArrowDownSFill /> : <RiArrowUpSFill />}
-      </span>
+      <span>{sortCellData ? <RiArrowDownSFill /> : <RiArrowUpSFill />}</span>
     </th>
   );
 });

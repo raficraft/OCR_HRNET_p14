@@ -155,7 +155,10 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
   };
 
   const createBodyCurrentCalendar = () => {
-    const allWeeks = calendar[currentDate.year].month[currentDate.month].weeks;
+    console.log(calendar[currentDate.year]);
+    console.log(currentMonth);
+    console.log(calendar[currentDate.year].month[currentMonth]);
+    const allWeeks = calendar[currentDate.year].month[currentMonth].weeks;
 
     return allWeeks.map((week, key) => (
       <tr key={key}>
@@ -198,8 +201,6 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
       </table>
     );
   };
-
-  console.log("render", currentDate);
 
   return (
     <div className={Style.container}>

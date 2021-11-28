@@ -1,6 +1,4 @@
 export const validForm = (input) => {
-  console.log("validation du formulaire");
-
   const thisItem = input.current.input;
 
   const thisInput = {

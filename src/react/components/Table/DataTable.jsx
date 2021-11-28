@@ -1,9 +1,9 @@
 import { useState, useRef, createRef, useEffect } from "react";
 import { SortCell } from "./../../components/Table/SortCell";
 import { Rowidentitie } from "./../../components/Table/RowIdentie";
-import Style from "./Employee.module.scss";
 import { filterData, sortBy } from "../../../js/tools/utils";
 import { debounce } from "./../../../js/tools/utils";
+import Style from "./Table.module.scss";
 
 export const DataTable = ({ dataEmployees }) => {
   const trKeys = Object.keys(dataEmployees[0]);
@@ -11,16 +11,17 @@ export const DataTable = ({ dataEmployees }) => {
   //number of item in the employee table
   const lengthArrayEmployees = Object.keys(dataEmployees).length;
 
+  const [numberOfLinePerPage, setnumberOfLinePerPage] = useState(5);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  useEffect(() => {}, [dataEmployees]);
+
   let [dataRow, setDataRow] = useState(dataEmployees);
 
   //Dynamical State based to key dataEmployees
   const [sortCellData, setSortCellData] = useState(
     trKeys.map((item) => ({ [item]: false }))
   );
-
-  const [numberOfLinePerPage, setnumberOfLinePerPage] =
-    useState(lengthArrayEmployees);
-  const [pageNumber, setPageNumber] = useState(1);
 
   //Dynamical Ref based to key dataEmployees
   const thRef = useRef(trKeys.map(() => createRef()));
@@ -43,7 +44,6 @@ export const DataTable = ({ dataEmployees }) => {
   };
 
   /**
-   *
    * @param {eventHTML} e
    * @param {number} index
    * @param {string} goTo
@@ -118,24 +118,21 @@ export const DataTable = ({ dataEmployees }) => {
   return (
     <div className={Style.table}>
       <header>
-        <label forhtml="selectEntries">
-          Show
-          <select
-            id="selectEntries"
-            value={numberOfLinePerPage}
-            onChange={handleSelectChange}
-          >
-            <option value="all" selected>
-              All
-            </option>
+        <div className={Style.tableSearch}>
+          <label forhtml="selectEntries">Show :</label>
+
+          <select value="5" onChange={handleSelectChange}>
+            <option value="all">All</option>
             <option value="1">1</option>
             <option value="5">5</option>
             <option value="10">10</option>
           </select>
-          entries
-        </label>
+          <p>Entries</p>
+        </div>
 
-        <input type="search" onKeyUp={handleSearch} />
+        <div className={Style.inputSearch}>
+          <input type="search" onKeyUp={handleSearch} placeholder="search" />
+        </div>
       </header>
 
       <table className={Style.table_content}>
@@ -146,10 +143,10 @@ export const DataTable = ({ dataEmployees }) => {
           <RowIdentities />
         </tbody>
       </table>
-      <div>
-        <p>PAGINATION</p>
-        {paginateButton(pageNumber)}
-      </div>
+
+      {pageNumber > 1 && (
+        <div className={Style.paginate}>{paginateButton(pageNumber)}</div>
+      )}
     </div>
   );
 };

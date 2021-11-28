@@ -11,8 +11,6 @@ import { DatePicker } from "./../../components/Input/Picker/DatePickers";
 import Style from "./Home.module.scss";
 
 export const Home = (props) => {
-  console.log("yolo", props);
-
   const [modal, setModal] = useState(false);
 
   const inputForm = {
@@ -30,7 +28,6 @@ export const Home = (props) => {
   const formEmployee = useRef();
 
   const handleSubmit = (evt) => {
-    console.log("soumission et traitements des resultats");
     evt.preventDefault();
 
     let countError = Object.keys(inputForm).length;
@@ -64,8 +61,8 @@ export const Home = (props) => {
     //At the end of the loop, if there is no error,
     // we store the information in the database system
     if (countError === 0) {
-      console.log("on stock en BDD");
       localStorage.setItem("employees", JSON.stringify(employees));
+      props.setter(employees);
       //view Success Modal
       setModal(!modal);
     }
@@ -78,8 +75,6 @@ export const Home = (props) => {
   useEffect(() => {
     document.title = "Create Employee";
   }, []);
-
-  console.log(modal);
 
   return (
     <section className={Style.home}>

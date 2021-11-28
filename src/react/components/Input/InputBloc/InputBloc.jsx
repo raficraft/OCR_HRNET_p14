@@ -12,7 +12,6 @@ export let InputBloc = forwardRef((props, ref) => {
   const errorMessage = useRef(null);
 
   const controlCapture = debounce(() => {
-    console.log("control capture");
     errorMessage.current.textContent = validInput(ref);
   }, 300);
 
@@ -28,7 +27,6 @@ export let InputBloc = forwardRef((props, ref) => {
     },
   }));
 
-  console.log("render");
 
   return (
     <div className={Style.input_bloc}>

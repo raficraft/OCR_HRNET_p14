@@ -1,5 +1,4 @@
 import { departement } from "../../../../js/data/states";
-import { states } from "./../../../../js/data/states";
 
 export const validInput = (input) => {
   console.error("Validation de saisie utilisateur");

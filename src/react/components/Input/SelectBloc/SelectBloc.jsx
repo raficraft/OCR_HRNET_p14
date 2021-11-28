@@ -42,7 +42,6 @@ export const SelectBloc = forwardRef((props, ref) => {
     );
   });
 
-  console.log("state of Hooks visible in component : ", visible);
   return (
     <div className={Style.input_select}>
       <div>

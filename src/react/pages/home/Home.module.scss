@@ -1,6 +1,6 @@
 body {
   padding: 2rem;
-  background-color: grey;
+  background-color: rgb(255, 255, 255);
 }
 
 .home {
@@ -51,12 +51,10 @@ body {
     cursor: pointer;
     border-radius: 3px;
     border: none;
-    box-shadow: 2px 2px 8px 1px black;
   }
 }
 
 input{
-  box-shadow: 2px 2px 8px 1px black;
   border: none;
 }
 

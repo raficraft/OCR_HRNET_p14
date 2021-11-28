@@ -7,14 +7,22 @@ import { dayArrayTable } from "../../../../../../js/data/calendarArray";
 import Style from "./DatePickerBody.module.scss";
 
 export const DatePickerBody = ({ setInput, inputVal, language }) => {
-  const startCalendar = 1900;
-  const endCalendar = 2050;
+  console.log(inputVal);
+
+  const startCalendar = 1599;
+  const endCalendar = 2020;
 
   const datePicker = new GetCalendar(startCalendar, endCalendar, language);
   const calendar = datePicker.calendarArray;
 
-  const currentMonth = datePicker.currentDate.monthName;
-  const currentYear = datePicker.currentDate;
+  console.log("get Picker by Date", datePicker);
+
+  const currentMonth = datePicker.currentDate.month;
+  const currentYear = datePicker.currentDate.year;
+
+  const currentYearCalendar = calendar[currentYear];
+
+  console.log(currentYearCalendar);
 
   const calendarYear = Object.keys(calendar);
   const monthArray = datePicker.monthArray[language];
@@ -31,19 +39,23 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
     if (inputVal) {
       const inputValArray = inputVal.split("/");
       let selectMonth = "";
-      let monthKey = "";
+      let month = "";
       let year = "";
       let date = "";
 
       switch (language) {
         case "fr":
           date = inputValArray[0];
-          monthKey = inputValArray[1] - 1;
-          selectMonth = datePicker.getMonthName(monthKey);
+          month = inputValArray[1] - 1;
+          selectMonth = datePicker.getMonthName(month);
           year = inputValArray[2];
           break;
         default:
-          //langauge en
+          //language en
+          date = inputValArray[0];
+          month = inputValArray[1] - 1;
+          selectMonth = datePicker.getMonthName(month);
+          year = inputValArray[2];
 
           break;
       }
@@ -51,7 +63,7 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
       setCurrentDate({
         ...currentDate,
         monthName: selectMonth,
-        month: monthKey,
+        month: month,
         year: year,
         date: date,
       });
@@ -155,10 +167,11 @@ export const DatePickerBody = ({ setInput, inputVal, language }) => {
   };
 
   const createBodyCurrentCalendar = () => {
-    console.log(calendar[currentDate.year]);
-    console.log(currentMonth);
-    console.log(calendar[currentDate.year].month[currentMonth]);
-    const allWeeks = calendar[currentDate.year].month[currentMonth].weeks;
+    console.log("before select", calendar[currentDate.year]);
+
+    console.log(currentDate);
+
+    const allWeeks = calendar[currentDate.year].month[currentDate.month].weeks;
 
     return allWeeks.map((week, key) => (
       <tr key={key}>

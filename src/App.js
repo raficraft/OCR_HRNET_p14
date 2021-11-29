@@ -10,7 +10,11 @@ function App() {
   return (
     <main className="main">
       <Switch>
-        <Route exact path="/" render={() => <Home setter={setStorage} />} />
+        <Route
+          exact
+          path="/"
+          render={() => <Home setter={setStorage} storage="storage" />}
+        />
         <Route
           exact
           path="/employee"

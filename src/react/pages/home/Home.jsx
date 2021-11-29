@@ -6,7 +6,6 @@ import { InputBloc } from "./../../components/Input/InputBloc/InputBloc";
 import { validForm } from "./validForm";
 import { validInput } from "./../../components/Input/InputBloc/validInput";
 import { ModalBox } from "../../components/modal/modal";
-import { DatePicker } from "./../../components/Input/Picker/DatePickers";
 
 import Style from "./Home.module.scss";
 
@@ -81,7 +80,7 @@ export const Home = (props) => {
       <header>
         <h1>HRnet</h1>
         <h2>Create Employee</h2>
-        <Link to="/employee">View Current Employees</Link>
+        {!props.storage && <Link to="/employee">View Current Employees</Link>}
       </header>
 
       <div id="form_employee">
@@ -109,24 +108,6 @@ export const Home = (props) => {
                   format: "alphabetical",
                 }}
                 ref={inputForm.lastName}
-              />
-
-              <DatePicker
-                ref={inputForm.birthDate}
-                data={{
-                  forHtml: "dateOfBirth",
-                  label: "Date of birth",
-                  format: "date",
-                }}
-              />
-              <DatePicker
-                ref={inputForm.startDate}
-                data={{
-                  forHtml: "startDate",
-                  label: "Start date",
-                  format: "date",
-                  language: "fr",
-                }}
               />
             </fieldset>
 

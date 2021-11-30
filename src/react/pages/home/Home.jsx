@@ -8,6 +8,7 @@ import { validInput } from "./../../components/Input/InputBloc/validInput";
 import { ModalBox } from "../../components/modal/modal";
 
 import Style from "./Home.module.scss";
+import { DatePicker } from "datepicker_by_raficraft";
 
 export const Home = (props) => {
   const [modal, setModal] = useState(false);
@@ -108,6 +109,20 @@ export const Home = (props) => {
                   format: "alphabetical",
                 }}
                 ref={inputForm.lastName}
+              />
+
+              <DatePicker
+                ref={inputForm.birthDate}
+                forHtml="dateOfBirth"
+                label="Date of birth"
+                format="date"
+              />
+              <DatePicker
+                ref={inputForm.startDate}
+                forHtml="startDate"
+                label="Start date"
+                format="date"
+                language="fr"
               />
             </fieldset>
 

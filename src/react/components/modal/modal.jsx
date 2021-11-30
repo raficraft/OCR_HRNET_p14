@@ -8,7 +8,6 @@ export const ModalBox = ({ onClose }) => {
     keyup(ev) {
       if (ev.key === "Escape") {
         onClose();
-        console.log("lol");
       }
     },
   });

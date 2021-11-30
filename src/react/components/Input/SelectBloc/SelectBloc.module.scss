@@ -11,7 +11,6 @@
 
   .fake_select{
     padding: 0.5rem;
-    background-color: #ededed;
     border : 1px solid rgb(143, 143, 143);
     cursor : pointer;
     position: relative;
@@ -34,6 +33,7 @@
     max-height: 256px;
     overflow-y: scroll;
     padding : 0.5rem 0.5rem 1rem;
+    border : 1px solid rgb(97, 97, 97);
     li{
       text-transform: uppercase;
       padding: 0.25rem;

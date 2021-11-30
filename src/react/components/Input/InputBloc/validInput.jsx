@@ -1,7 +1,7 @@
 import { departement } from "../../../../js/data/states";
 
 export const validInput = (input) => {
-  console.error("Validation de saisie utilisateur");
+  //console.error("Validation de saisie utilisateur");
 
   const thisItem = input.current.input;
 

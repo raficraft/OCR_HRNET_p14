@@ -121,7 +121,7 @@ export const DataTable = ({ dataEmployees }) => {
         <div className={Style.tableSearch}>
           <label forhtml="selectEntries">Show :</label>
 
-          <select value="5" onChange={handleSelectChange}>
+          <select defaultValue="5" onChange={handleSelectChange}>
             <option value="all">All</option>
             <option value="1">1</option>
             <option value="5">5</option>

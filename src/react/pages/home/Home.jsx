@@ -118,6 +118,8 @@ export const Home = (props) => {
                 forHtml="dateOfBirth"
                 label="Date of birth"
                 format="date"
+                start={1950}
+                end={2070}
               />
               <DatePicker
                 ref={inputForm.startDate}
@@ -125,6 +127,8 @@ export const Home = (props) => {
                 label="Start date"
                 format="date"
                 language="fr"
+                start={1950}
+                end={2070}
               />
             </fieldset>
 

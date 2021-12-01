@@ -5,6 +5,7 @@ import { Employee } from "./react/pages/employee/Employee";
 import { Home } from "./react/pages/home/Home";
 
 function App() {
+
   const [storage, setStorage] = useState(localStorage.getItem("employees"));
 
   return (
@@ -13,7 +14,7 @@ function App() {
         <Route
           exact
           path="/"
-          render={() => <Home setter={setStorage} storage="storage" />}
+          render={() => <Home setter={setStorage} storage={storage} />}
         />
         <Route
           exact

@@ -11,6 +11,8 @@ import Style from "./Home.module.scss";
 import { DatePicker } from "datepicker_by_raficraft";
 
 export const Home = (props) => {
+
+  console.log(props);
   const [modal, setModal] = useState(false);
 
   const inputForm = {
@@ -81,7 +83,7 @@ export const Home = (props) => {
       <header>
         <h1>HRnet</h1>
         <h2>Create Employee</h2>
-        {!props.storage && <Link to="/employee">View Current Employees</Link>}
+        {props.storage && <Link to="/employee">View Current Employees</Link>}
       </header>
 
       <div id="form_employee">
